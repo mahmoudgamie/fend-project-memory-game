@@ -1,9 +1,11 @@
 /*
  * Create a list that holds all of your cards
  */
-
  const allCards = document.querySelectorAll('.card');
 
+ // Redisplay on restart
+ const restart = document.querySelector('.restart');
+ restart.addEventListener('click', displayCards);
 
  //TODO: REMOVE THE BELOW LOOP
  for (let i = 0; i < allCards.length; i++) {
@@ -26,8 +28,6 @@
      }
  }
 
- displayCards();
-
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
@@ -42,7 +42,7 @@ function shuffle(array) {
 
     return array;
 }
-
+displayCards();
 
 /*
  * set up the event listener for a card. If a card is clicked:
