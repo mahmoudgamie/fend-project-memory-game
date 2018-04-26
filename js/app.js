@@ -1,17 +1,13 @@
 /*
  * Create a list that holds all of your cards
  */
- const allCards = document.querySelectorAll('.card');
+const allCards = document.querySelectorAll('.card');
+const myDeck = document.querySelector('.deck');
 
- // Redisplay on restart
- const restart = document.querySelector('.restart');
- restart.addEventListener('click', displayCards);
 
- //TODO: REMOVE THE BELOW LOOP
- for (let i = 0; i < allCards.length; i++) {
-     let card = allCards[i];
-     card.classList.add('show');
- }
+// Redisplay on restart
+const restart = document.querySelector('.restart');
+restart.addEventListener('click', displayCards);
 
 /*
  * Display the cards on the page
@@ -20,13 +16,58 @@
  *   - add each card's HTML to the page
  */
 
- function displayCards() {
-     const shuffledCards = shuffle(Array.from(allCards));
-     const deck = document.querySelector('.deck');
-     for (const card of shuffledCards) {
+function displayCards() {
+    let openCards = [];
+    const shuffledCards = shuffle(Array.from(allCards));
+    const deck = document.querySelector('.deck');
+    for (const card of shuffledCards) {
         deck.appendChild(card);
-     }
- }
+        card.addEventListener('click', function (event) {
+            showCard(this);
+            addCard(this, openCards)
+            match(this, openCards)
+        });
+    }
+}
+
+function showCard(card) {
+    card.classList.add('show')
+}
+
+function hideCard(card) {
+    card.classList.remove('show')
+}
+
+function lockCard(card) {
+    card.classList.add('open', 'disable-clicks')
+}
+
+function addCard(card, cardList) {
+    cardList.push(card);
+}
+
+function clearArray(array) {
+    return array.splice(0, 2)
+}
+
+function match(card, cardList) {
+    if (cardList.length > 1) {
+        if (card.children[0].className === cardList[0].children[0].className) {
+            lockCard(card);
+            lockCard(cardList[0]);
+            clearArray(cardList)
+        } else {
+            myDeck.classList.add('disable-clicks')
+            setTimeout(function () {
+                hideCard(card);
+                hideCard(cardList[0]);
+                clearArray(cardList)
+                myDeck.classList.remove('disable-clicks')
+            }, 2000);
+        }
+    }
+}
+
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
