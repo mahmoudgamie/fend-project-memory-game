@@ -3,11 +3,16 @@
  */
 const allCards = document.querySelectorAll('.card');
 const myDeck = document.querySelector('.deck');
+const no_of_moves = document.querySelector('.moves')
+let counter = 0;
 
 
 // Redisplay on restart
 const restart = document.querySelector('.restart');
 restart.addEventListener('click', displayCards);
+
+// display no of moves
+
 
 /*
  * Display the cards on the page
@@ -18,6 +23,7 @@ restart.addEventListener('click', displayCards);
 
 function displayCards() {
     let openCards = [];
+    no_of_moves.innerHTML = counter;
     const shuffledCards = shuffle(Array.from(allCards));
     const deck = document.querySelector('.deck');
     for (const card of shuffledCards) {
@@ -26,6 +32,8 @@ function displayCards() {
             showCard(this);
             addCard(this, openCards)
             match(this, openCards)
+            counter++;
+            no_of_moves.innerHTML = counter;
         });
     }
 }
