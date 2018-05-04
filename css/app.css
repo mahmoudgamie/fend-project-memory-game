@@ -85,6 +85,10 @@ h1 {
     pointer-events: none;
 }
 
+.hide-deck {
+    display: none;
+}
+
 /*
  * Styles for the Score Panel
  */
@@ -111,3 +115,4 @@ h1 {
     float: right;
     cursor: pointer;
 }
+

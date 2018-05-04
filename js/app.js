@@ -4,15 +4,13 @@
 const allCards = document.querySelectorAll('.card');
 const myDeck = document.querySelector('.deck');
 const no_of_moves = document.querySelector('.moves')
-let counter = 0;
+let moves_counter = 0;
+let open_cards_counter = 0;
 
 
 // Redisplay on restart
 const restart = document.querySelector('.restart');
-restart.addEventListener('click', displayCards);
-
-// display no of moves
-
+restart.addEventListener('click', reloadGame);
 
 /*
  * Display the cards on the page
@@ -22,32 +20,61 @@ restart.addEventListener('click', displayCards);
  */
 
 function displayCards() {
+    debugger
     let openCards = [];
-    no_of_moves.innerHTML = counter;
     const shuffledCards = shuffle(Array.from(allCards));
     const deck = document.querySelector('.deck');
     for (const card of shuffledCards) {
         deck.appendChild(card);
         card.addEventListener('click', function (event) {
             showCard(this);
-            addCard(this, openCards)
-            match(this, openCards)
-            counter++;
-            no_of_moves.innerHTML = counter;
+            disableCard(this);
+            addCard(this, openCards);
+            match(this, openCards);
+            moves_counter++;
+            no_of_moves.innerHTML = moves_counter;
+            youWin();;
         });
     }
 }
 
+/*
+TODO restart game with code instead of reload
+*/
+// function restartGame(e) {
+//     e.preventDefault();
+//     no_of_moves.innerHTML = 0;
+//     open_cards_counter = 0;
+//     moves_counter = 0;
+//     for (const card of allCards) {
+//         card.classList.remove('show', 'open', 'disable-clicks');
+//     }    
+//     displayCards();
+// }
+
+function reloadGame() {
+    location.reload();
+}
+
 function showCard(card) {
-    card.classList.add('show')
+    card.classList.add('show');
 }
 
 function hideCard(card) {
-    card.classList.remove('show')
+    card.classList.remove('show');
+}
+
+function disableCard(card) {
+    card.classList.add('disable-clicks');
+}
+
+function enableCard(card) {
+    card.classList.remove('disable-clicks')
 }
 
 function lockCard(card) {
-    card.classList.add('open', 'disable-clicks')
+    card.classList.add('open');
+    open_cards_counter++;
 }
 
 function addCard(card, cardList) {
@@ -55,7 +82,24 @@ function addCard(card, cardList) {
 }
 
 function clearArray(array) {
-    return array.splice(0, 2)
+    return array.splice(0, 2);
+}
+
+function youWin() {
+    if (open_cards_counter === 16) {
+        myDeck.classList.add('hide-deck');
+        swal({
+            title: "Congratulations! You Won!",
+            text: "You clicked the button!",
+            icon: "success",
+            button: "Play Again!",
+        }).then(function (value) {
+            if (value === true) {
+                myDeck.classList.remove('hide-deck')
+                reloadGame();
+            }
+        });
+    }
 }
 
 function match(card, cardList) {
@@ -69,8 +113,10 @@ function match(card, cardList) {
             setTimeout(function () {
                 hideCard(card);
                 hideCard(cardList[0]);
-                clearArray(cardList)
-                myDeck.classList.remove('disable-clicks')
+                enableCard(card);
+                enableCard(cardList[0]);
+                clearArray(cardList);
+                myDeck.classList.remove('disable-clicks');
             }, 2000);
         }
     }
