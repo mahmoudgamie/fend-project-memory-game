@@ -32,7 +32,9 @@ function displayCards() {
             addCard(this, openCards);
             match(this, openCards);
             no_of_moves.innerHTML = moves_counter;
+            rating()
             youWin();;
+            
         });
     }
 }
@@ -96,6 +98,27 @@ var timer = (function() {
         }
     };
 })();
+
+
+
+
+function rating() {
+    let lastStar = document.querySelector('.last-star');
+    let middleStar = document.querySelector('.middle-star');
+    let firstStar = document.querySelector('.first-star');
+    if (moves_counter > 8) {
+        lastStar.classList.remove('fa-star');
+        lastStar.classList.add('fa-star-o');
+    }
+    if (moves_counter > 16) {
+        middleStar.classList.remove('fa-star');
+        middleStar.classList.add('fa-star-o');
+    }
+    if (moves_counter > 32) {
+        firstStar.classList.remove('fa-star');
+        firstStar.classList.add('fa-star-o');
+    }
+}
 
 function youWin() {
     if (open_cards_counter === 16) {
