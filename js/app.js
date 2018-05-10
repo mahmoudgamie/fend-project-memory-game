@@ -86,6 +86,10 @@ function clearArray(array) {
     return array.splice(0, 2);
 }
 
+function getRating() {
+    return document.getElementsByClassName('fa-star').length;
+}
+
 // this function will be run one time only
 var timer = (function() {
     var executed = false;
@@ -106,17 +110,17 @@ function rating() {
     let lastStar = document.querySelector('.last-star');
     let middleStar = document.querySelector('.middle-star');
     let firstStar = document.querySelector('.first-star');
-    if (moves_counter > 8) {
+    if (moves_counter === 8) {
         lastStar.classList.remove('fa-star');
         lastStar.classList.add('fa-star-o');
     }
-    if (moves_counter > 16) {
+    if (moves_counter === 20) {
         middleStar.classList.remove('fa-star');
         middleStar.classList.add('fa-star-o');
     }
-    if (moves_counter > 32) {
+    if (moves_counter === 32) {
         firstStar.classList.remove('fa-star');
-        firstStar.classList.add('fa-star-o');
+        firstStar.classList.add('fa-star-o');4
     }
 }
 
@@ -125,7 +129,8 @@ function youWin() {
         myDeck.classList.add('hide-deck');
         swal({
             title: "Congratulations! You Won!",
-            text: `Your score is ${moves_counter} moves in ${duration} Seconds`,
+            text: `Your score is ${moves_counter} moves in ${duration} Seconds
+                    You got ${getRating()} ${getRating() > 1 ? 'Stars' : 'Star'}`,
             icon: "success",
             button: "Play Again!",
         }).then(function (value) {
