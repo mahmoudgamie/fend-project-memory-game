@@ -6,7 +6,7 @@ const myDeck = document.querySelector('.deck');
 const no_of_moves = document.querySelector('.moves')
 let moves_counter = 0;
 let open_cards_counter = 0;
-
+let duration = 0;
 
 // Redisplay on restart
 const restart = document.querySelector('.restart');
@@ -20,18 +20,17 @@ restart.addEventListener('click', reloadGame);
  */
 
 function displayCards() {
-    debugger
     let openCards = [];
     const shuffledCards = shuffle(Array.from(allCards));
     const deck = document.querySelector('.deck');
     for (const card of shuffledCards) {
         deck.appendChild(card);
         card.addEventListener('click', function (event) {
+            timer();
             showCard(this);
             disableCard(this);
             addCard(this, openCards);
             match(this, openCards);
-            moves_counter++;
             no_of_moves.innerHTML = moves_counter;
             youWin();;
         });
@@ -85,17 +84,29 @@ function clearArray(array) {
     return array.splice(0, 2);
 }
 
+// this function will be run one time only
+var timer = (function() {
+    var executed = false;
+    return function() {
+        if (!executed) {
+            executed = true;
+            setInterval(function () {
+                duration++
+            }, 1000)
+        }
+    };
+})();
+
 function youWin() {
     if (open_cards_counter === 16) {
         myDeck.classList.add('hide-deck');
         swal({
             title: "Congratulations! You Won!",
-            text: "You clicked the button!",
+            text: `Your score is ${moves_counter} moves in ${duration} Seconds`,
             icon: "success",
             button: "Play Again!",
         }).then(function (value) {
             if (value === true) {
-                myDeck.classList.remove('hide-deck')
                 reloadGame();
             }
         });
@@ -104,6 +115,7 @@ function youWin() {
 
 function match(card, cardList) {
     if (cardList.length > 1) {
+        moves_counter++;
         if (card.children[0].className === cardList[0].children[0].className) {
             lockCard(card);
             lockCard(cardList[0]);
