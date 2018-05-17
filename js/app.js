@@ -34,7 +34,6 @@ function displayCards() {
             no_of_moves.innerHTML = moves_counter;
             rating()
             youWin();;
-            
         });
     }
 }
@@ -58,11 +57,11 @@ function reloadGame() {
 }
 
 function showCard(card) {
-    card.classList.add('show');
+    card.classList.add('show', 'open');
 }
 
 function hideCard(card) {
-    card.classList.remove('show');
+    card.classList.remove('show', 'open');
 }
 
 function disableCard(card) {
@@ -73,8 +72,7 @@ function enableCard(card) {
     card.classList.remove('disable-clicks')
 }
 
-function lockCard(card) {
-    card.classList.add('open');
+function lockCard(card) {    
     open_cards_counter++;
 }
 
