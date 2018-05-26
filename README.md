@@ -8,7 +8,7 @@
 ## App Details
 
 The main function is the displayCards function, it has a click event that fires th rest of functions.
-I used a function that starts a timer , it is executed one time only it is fired from the click event, the function is from stackover flow
+I used a function that starts a timer , it is executed one time only it is fired from the click event, the function is from stackoverflow
 
 ## Dependencies
 
