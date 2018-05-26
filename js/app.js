@@ -3,7 +3,8 @@
  */
 const allCards = document.querySelectorAll('.card');
 const myDeck = document.querySelector('.deck');
-const no_of_moves = document.querySelector('.moves')
+const no_of_moves = document.querySelector('.moves');
+const timer_display = document.querySelector('.timer');
 let moves_counter = 0;
 let open_cards_counter = 0;
 let duration = 0;
@@ -57,11 +58,11 @@ function reloadGame() {
 }
 
 function showCard(card) {
-    card.classList.add('show', 'open');
+    card.classList.add('show', 'open', 'fffff');
 }
 
 function hideCard(card) {
-    card.classList.remove('show', 'open');
+    card.classList.remove('show', 'open', 'fffff');
 }
 
 function disableCard(card) {
@@ -72,7 +73,8 @@ function enableCard(card) {
     card.classList.remove('disable-clicks')
 }
 
-function lockCard(card) {    
+function lockCard(card) {
+    card.classList.add('animated', 'rubberBand')
     open_cards_counter++;
 }
 
@@ -88,14 +90,19 @@ function getRating() {
     return document.getElementsByClassName('fa-star').length;
 }
 
-// this function will be run one time only
-var timer = (function() {
-    var executed = false;
-    return function() {
+
+
+/* this function will run one time only from
+ https://stackoverflow.com/questions/12713564/function-in-javascript-that-can-be-called-only-once
+*/
+let timer = (function () {
+    let executed = false;
+    return function () {
         if (!executed) {
             executed = true;
             setInterval(function () {
                 duration++
+                timer_display.innerHTML = duration;
             }, 1000)
         }
     };
@@ -118,13 +125,14 @@ function rating() {
     }
     if (moves_counter === 32) {
         firstStar.classList.remove('fa-star');
-        firstStar.classList.add('fa-star-o');4
+        firstStar.classList.add('fa-star-o'); 4
     }
 }
 
 function youWin() {
     if (open_cards_counter === 16) {
-        myDeck.classList.add('hide-deck');
+        myDeck.classList.add('hide');
+        timer_display.classList.add('hide')
         swal({
             title: "Congratulations! You Won!",
             text: `Your score is ${moves_counter} moves in ${duration} Seconds
@@ -147,8 +155,14 @@ function match(card, cardList) {
             lockCard(cardList[0]);
             clearArray(cardList)
         } else {
-            myDeck.classList.add('disable-clicks')
+            myDeck.classList.add('disable-clicks');
             setTimeout(function () {
+                card.classList.add('animated', 'wobble');
+                cardList[0].classList.add('animated', 'wobble');
+            }, 500);
+            setTimeout(function () {
+                card.classList.remove('animated', 'wobble');
+                cardList[0].classList.remove( 'animated', 'wobble');
                 hideCard(card);
                 hideCard(cardList[0]);
                 enableCard(card);
