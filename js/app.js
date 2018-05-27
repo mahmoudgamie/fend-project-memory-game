@@ -123,10 +123,6 @@ function rating() {
         middleStar.classList.remove('fa-star');
         middleStar.classList.add('fa-star-o');
     }
-    if (moves_counter === 32) {
-        firstStar.classList.remove('fa-star');
-        firstStar.classList.add('fa-star-o'); 4
-    }
 }
 
 function youWin() {
