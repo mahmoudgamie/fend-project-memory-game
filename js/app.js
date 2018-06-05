@@ -109,19 +109,26 @@ let timer = (function () {
 })();
 
 
-
-
 function rating() {
-    let lastStar = document.querySelector('.last-star');
-    let middleStar = document.querySelector('.middle-star');
-    let firstStar = document.querySelector('.first-star');
-    if (moves_counter === 8) {
-        lastStar.classList.remove('fa-star');
-        lastStar.classList.add('fa-star-o');
+    let fifth_star = document.querySelector('.fifth-star');
+    let fourth_star = document.querySelector('.fourth-star');
+    let third_star = document.querySelector('.third-star');
+    let second_star = document.querySelector('.second-star');
+    if (moves_counter === 12) {
+        fifth_star.classList.remove('fa-star');
+        fifth_star.classList.add('fa-star-o');
+    }
+    if (moves_counter === 16) {
+        fourth_star.classList.remove('fa-star');
+        fourth_star.classList.add('fa-star-o');
     }
     if (moves_counter === 20) {
-        middleStar.classList.remove('fa-star');
-        middleStar.classList.add('fa-star-o');
+        third_star.classList.remove('fa-star');
+        third_star.classList.add('fa-star-o');
+    }
+    if (moves_counter === 24) {
+        second_star.classList.remove('fa-star');
+        second_star.classList.add('fa-star-o');
     }
 }
 
